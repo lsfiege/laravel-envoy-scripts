@@ -52,7 +52,6 @@
 @endtask
 
 @story('deploy', ['on' => 'prod'])
-    down
     git
     composer
     npm_install
@@ -60,18 +59,7 @@
     set_permissions
     cache
     migrate
-    up
 @endstory
-
-@task('down')
-    {{ logMessage("Putting application in maintenance mode") }}
-    php {{ $baseDir }}/artisan down --message="We're doing some maintenance right now, please come back in a few moments"
-@endtask
-
-@task('up')
-    {{ logMessage("Going linve now") }}
-    php {{ $baseDir }}/artisan up
-@endtask
 
 @task('git')
     {{ logMessage("Cloning repository") }}
