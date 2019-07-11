@@ -107,7 +107,7 @@ fi
 
     cd {{ $currentReleaseDir }}
 
-    npm install --silent --no-progress
+    npm install --silent --no-progress > /dev/null
 @endtask
 
 @task('npm_run_prod')
@@ -115,7 +115,7 @@ fi
 
     cd {{ $currentReleaseDir }}
 
-    npm run prod --silent --no-progress
+    npm run prod --silent --no-progress > /dev/null
 @endtask
 
 @task('update_symlinks')

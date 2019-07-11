@@ -94,7 +94,7 @@
 
     cd {{ $baseDir }}
     rm -rf node_modules
-    npm install --silent --no-progress
+    npm install --silent --no-progress > /dev/null
 @endtask
 
 @task('npm_run_prod')
@@ -102,7 +102,7 @@
 
     cd {{ $baseDir }}
 
-    npm run prod --silent --no-progress
+    npm run prod --silent --no-progress > /dev/null
 @endtask
 
 @task('set_permissions')
