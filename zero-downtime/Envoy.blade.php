@@ -186,7 +186,7 @@ fi
     php {{ $currentDir }}/artisan migrate:status
 @endtask
 
-@task('reload_services')
+@task('reload_services', ['on' => 'prod'])
     # Reload Services
     {{ logMessage("Restarting service supervisor") }}
     sudo supervisorctl restart all
