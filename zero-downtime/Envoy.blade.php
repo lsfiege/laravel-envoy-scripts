@@ -84,7 +84,6 @@ fi
     update_symlinks
     set_permissions
     cache
-    migrate
     clean_old_releases
 @endstory
 
@@ -163,12 +162,6 @@ fi
     php {{ $currentDir }}/artisan view:cache
 @endtask
 
-@task('migrate')
-    {{ logMessage("Running migrations") }}
-
-    php {{ $currentReleaseDir }}/artisan migrate --force
-@endtask
-
 @task('clean_old_releases')
     # Delete all but the 5 most recent releases
     {{ logMessage("Cleaning old releases") }}
@@ -176,13 +169,32 @@ fi
     ls -dt {{ $releaseDir }}/* | tail -n +6 | xargs -d "\n" rm -rf;
 @endtask
 
+
+@task('migrate', ['on' => 'prod', 'confirm' => true])
+    {{ logMessage("Running migrations") }}
+
+    php {{ $currentDir }}/artisan migrate --force
+@endtask
+
+@task('migrate_rollback', ['on' => 'prod', 'confirm' => true])
+    {{ logMessage("Rolling back migrations") }}
+
+    php {{ $currentDir }}/artisan migrate:rollback --force
+@endtask
+
+@task('migrate_status', ['on' => 'prod'])
+    php {{ $currentDir }}/artisan migrate:status
+@endtask
+
 @task('reload_services')
     # Reload Services
-#    {{ logMessage("Restarting service supervisor") }}
-#    sudo supervisorctl restart all
-#    {{ logMessage("Reloading php") }}
-#    sudo systemctl restart php7.3-fpm
+    {{ logMessage("Restarting service supervisor") }}
+    sudo supervisorctl restart all
+
+    {{ logMessage("Reloading php") }}
+    sudo systemctl reload php7.3-fpm
 @endtask
+
 
 @finished
     echo "Envoy deployment script finished.\r\n";

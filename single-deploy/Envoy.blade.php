@@ -58,7 +58,6 @@
     npm_run_prod
     set_permissions
     cache
-    migrate
 @endstory
 
 @task('git')
@@ -110,19 +109,32 @@
     php {{ $baseDir }}/artisan view:cache
 @endtask
 
-@task('migrate')
+
+@task('migrate', ['on' => 'prod', 'confirm' => true])
     {{ logMessage("Running migrations") }}
 
-    php {{ $baseDir }}/artisan migrate --force
+    php {{ $currentDir }}/artisan migrate --force
+@endtask
+
+@task('migrate_rollback', ['on' => 'prod', 'confirm' => true])
+    {{ logMessage("Rolling back migrations") }}
+
+    php {{ $currentDir }}/artisan migrate:rollback --force
+@endtask
+
+@task('migrate_status', ['on' => 'prod'])
+    php {{ $currentDir }}/artisan migrate:status
 @endtask
 
 @task('reload_services')
     # Reload Services
-#    {{ logMessage("Restarting service supervisor") }}
-#    sudo supervisorctl restart all
-#    {{ logMessage("Reloading php") }}
-#    sudo systemctl restart php7.3-fpm
+    {{ logMessage("Restarting service supervisor") }}
+    sudo supervisorctl restart all
+
+    {{ logMessage("Reloading php") }}
+    sudo systemctl reload php7.3-fpm
 @endtask
+
 
 @finished
     echo "Envoy deployment script finished.\r\n";
