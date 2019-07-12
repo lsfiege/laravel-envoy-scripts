@@ -38,8 +38,8 @@
 
     {{ logMessage("Updating assets") }}
     rm -rf node_modules
-    npm install --silent --no-progress
-    npm run prod --silent --no-progress
+    npm install --silent --no-progress > /dev/null
+    npm run prod --silent --no-progress > /dev/null
 
     {{ logMessage("Building cache") }}
     php {{ $baseDir }}/artisan route:cache
