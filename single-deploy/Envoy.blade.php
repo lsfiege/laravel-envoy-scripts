@@ -54,6 +54,7 @@
 @story('deploy', ['on' => 'prod'])
     git
     composer
+    migrate
     npm_install
     npm_run_prod
     set_permissions
