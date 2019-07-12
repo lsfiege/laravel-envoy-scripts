@@ -17,7 +17,7 @@
     }
 
     if (!isset($branch)) {
-        throw new Exception('--branch must be specified');
+        $branch = 'master';
     }
 
     function logMessage($message) {
