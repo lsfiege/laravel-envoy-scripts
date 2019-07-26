@@ -66,8 +66,8 @@ if [ ! -d {{ $baseDir }}/current ]; then
     ln -nfs {{ $baseDir }}/.env {{ $release }}/.env
     {{ logMessage("Environment file set up") }}
 
-    chown -R {{ $user }}:www-data {{ $baseDir }}/storage
-    chmod -R ug+rwx {{ $baseDir }}/storage
+    sudo chown -R {{ $user }}:www-data {{ $baseDir }}/storage
+    sudo chmod -R ug+rwx {{ $baseDir }}/storage
 
     rm -rf {{ $release }}
     {{ logMessage("Deployment path initialised. Run 'envoy run deploy' now.") }}
@@ -148,9 +148,9 @@ fi
     # Set dir permissions
     {{ logMessage("Set permissions") }}
     cd {{ $baseDir }}
-    chown -R {{ $user }}:www-data current
-    chmod -R ug+rwx current/storage current/bootstrap/cache
-    chown -R {{ $user }}:www-data {{ $currentReleaseDir }}
+    sudo chown -R {{ $user }}:www-data current
+    sudo chmod -R ug+rwx current/storage current/bootstrap/cache
+    sudo chown -R {{ $user }}:www-data {{ $currentReleaseDir }}
 @endtask
 
 @task('cache')
