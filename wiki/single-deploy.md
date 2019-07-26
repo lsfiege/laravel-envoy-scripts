@@ -1,4 +1,7 @@
 # Deploy project using single Laravel Envoy script
+
+First of all you must [configure SSH in your server](./wiki/configure-ssh.md)
+
 > *Note*  This script may have DOWNTIME while deploy is executed!
 
 You can deploy a project with a single laravel Envoy script, assuming you have a single project structure:

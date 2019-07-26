@@ -1,4 +1,7 @@
 # Deploy project using zero downtime configuration with Laravel Envoy script
+
+First of all you must [configure SSH in your server](./wiki/configure-ssh.md)
+
 For use zero downtime deploys, you need to structure project folder in a different way:
 ```
 * -- /var/www/turismo
