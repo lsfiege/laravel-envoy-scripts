@@ -58,6 +58,7 @@
     npm_install
     npm_run_prod
     set_permissions
+    reload_services
     cache
 @endstory
 

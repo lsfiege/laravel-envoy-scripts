@@ -84,6 +84,7 @@ fi
     migrate
     update_symlinks
     set_permissions
+    reload_services
     cache
     clean_old_releases
 @endstory
