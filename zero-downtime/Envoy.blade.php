@@ -148,6 +148,9 @@ fi
 @task('set_permissions')
     # Set dir permissions
     {{ logMessage("Set permissions") }}
+
+    sudo chown -R {{ $user }}:www-data {{ $baseDir }}
+    sudo chmod -R ug+rwx {{ $baseDir }}/storage
     cd {{ $baseDir }}
     sudo chown -R {{ $user }}:www-data current
     sudo chmod -R ug+rwx current/storage current/bootstrap/cache
