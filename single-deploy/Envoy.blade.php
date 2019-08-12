@@ -41,6 +41,9 @@
     npm install --silent --no-progress > /dev/null
     npm run prod --silent --no-progress > /dev/null
 
+    {{ logMessage("Deleting node_modules folder") }}
+    rm -rf node_modules
+
     {{ logMessage("Building cache") }}
     php {{ $baseDir }}/artisan route:cache
 
