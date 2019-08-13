@@ -81,8 +81,8 @@ fi
     composer
     npm_install
     npm_run_prod
-    migrate
     update_symlinks
+    migrate
     set_permissions
     reload_services
     cache
