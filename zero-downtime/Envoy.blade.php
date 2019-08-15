@@ -82,7 +82,7 @@ fi
     npm_install
     npm_run_prod
     update_symlinks
-    migrate
+    migrate_release
     set_permissions
     reload_services
     cache
@@ -177,6 +177,11 @@ fi
     ls -dt {{ $releaseDir }}/* | tail -n +6 | xargs -d "\n" rm -rf;
 @endtask
 
+@task('migrate_release', ['on' => 'prod', 'confirm' => false])
+    {{ logMessage("Running migrations") }}
+
+    php {{ $currentReleaseDir }}/artisan migrate --force
+@endtask
 
 @task('migrate', ['on' => 'prod', 'confirm' => true])
     {{ logMessage("Running migrations") }}
