@@ -16,8 +16,9 @@
         $baseDir = env('DEPLOY_BASE_DIR');
     }
 
-    if (!isset($branch)) {
-        $branch = 'master';
+    $branchOrTag = env('CI_COMMIT_TAG');
+    if (!$branchOrTag) {
+        $branchOrTag = env('CI_COMMIT_BRANCH', 'master');
     }
 
     function logMessage($message) {
@@ -45,11 +46,8 @@
     rm -rf node_modules
 
     {{ logMessage("Building cache") }}
-    php {{ $baseDir }}/artisan route:cache
 
-    php {{ $baseDir }}/artisan config:cache
-
-    php {{ $baseDir }}/artisan view:cache
+    php {{ $currentDir }}/artisan optimize
 
     {{ logMessage("Rollback complete") }}
 @endtask
@@ -70,7 +68,7 @@
 
     cd {{ $baseDir }}
     git fetch origin
-    git reset --hard origin/{{ $branch }}
+    git reset --hard origin/{{ $branchOrTag }}
 @endtask
 
 @task('composer')
@@ -107,11 +105,7 @@
 @task('cache')
     {{ logMessage("Building cache") }}
 
-    php {{ $baseDir }}/artisan route:cache
-
-    php {{ $baseDir }}/artisan config:cache
-
-    php {{ $baseDir }}/artisan view:cache
+    php {{ $currentDir }}/artisan optimize
 @endtask
 
 

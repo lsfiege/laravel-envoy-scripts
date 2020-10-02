@@ -17,8 +17,9 @@
         $baseDir = env('DEPLOY_BASE_DIR');
     }
 
-    if (!isset($branch)) {
-        $branch = 'master';
+    $branchOrTag = env('CI_COMMIT_TAG');
+    if (!$branchOrTag) {
+        $branchOrTag = env('CI_COMMIT_BRANCH', 'master');
     }
 
     $releaseDir = $baseDir . '/releases';
@@ -40,11 +41,7 @@
     {{ logMessage("Rolled back!") }}
 
     {{ logMessage("Rebuilding cache") }}
-    php {{ $currentDir }}/artisan route:cache
-
-    php {{ $currentDir }}/artisan config:cache
-
-    php {{ $currentDir }}/artisan view:cache
+    php {{ $currentDir }}/artisan optimize
     {{ logMessage("Rebuilding cache completed") }}
 
     echo "Rolled back to $(find . -maxdepth 1 -name "20*" | sort  | tail -n 2 | head -n1)"
@@ -54,7 +51,7 @@
 if [ ! -d {{ $baseDir }}/current ]; then
     cd {{ $baseDir }}
 
-    git clone {{ $repo }} --branch={{ $branch }} --depth=1 -q {{ $release }}
+    git clone {{ $repo }} --branch={{ $branchOrTag }} --depth=1 -q {{ $release }}
     {{ logMessage("Repository cloned") }}
 
     mv {{ $release }}/storage {{ $baseDir }}/storage
@@ -92,7 +89,7 @@ fi
 @task('git')
     {{ logMessage("Cloning repository") }}
 
-    git clone {{ $repo }} --branch={{ $branch }} --depth=1 -q {{ $currentReleaseDir }}
+    git clone {{ $repo }} --branch={{ $branchOrTag }} --depth=1 -q {{ $currentReleaseDir }}
 @endtask
 
 @task('composer')
@@ -163,11 +160,7 @@ fi
 @task('cache')
     {{ logMessage("Building cache") }}
 
-    php {{ $currentDir }}/artisan route:cache
-
-    php {{ $currentDir }}/artisan config:cache
-
-    php {{ $currentDir }}/artisan view:cache
+    php {{ $currentDir }}/artisan optimize
 @endtask
 
 @task('clean_old_releases')
