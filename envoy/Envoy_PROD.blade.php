@@ -38,6 +38,7 @@
 
 @story('deploy', ['on' => 'web'])
     git
+    composer-check
     composer
     npm_install
     npm_run_prod
@@ -49,6 +50,14 @@
     cache
     clean_old_releases
 @endstory
+
+@task('composer-check')
+    {{ logMessage("Check platform reqs with composer ") }}
+
+    cd {{ $currentReleaseDir }}
+
+    composer check-platform-reqs --no-dev
+@endtask
 
 @finished
     echo "Envoy deployment script finished.\r\n";
