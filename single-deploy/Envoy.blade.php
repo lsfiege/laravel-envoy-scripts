@@ -47,7 +47,7 @@
 
     {{ logMessage("Building cache") }}
 
-    php {{ $currentDir }}/artisan optimize
+    php {{ $baseDir }}/artisan optimize
 
     {{ logMessage("Rollback complete") }}
 @endtask
@@ -105,24 +105,24 @@
 @task('cache')
     {{ logMessage("Building cache") }}
 
-    php {{ $currentDir }}/artisan optimize
+    php {{ $baseDir }}/artisan optimize
 @endtask
 
 
 @task('migrate', ['on' => 'prod', 'confirm' => true])
     {{ logMessage("Running migrations") }}
 
-    php {{ $currentDir }}/artisan migrate --force
+    php {{ $baseDir }}/artisan migrate --force
 @endtask
 
 @task('migrate_rollback', ['on' => 'prod', 'confirm' => true])
     {{ logMessage("Rolling back migrations") }}
 
-    php {{ $currentDir }}/artisan migrate:rollback --force
+    php {{ $baseDir }}/artisan migrate:rollback --force
 @endtask
 
 @task('migrate_status', ['on' => 'prod'])
-    php {{ $currentDir }}/artisan migrate:status
+    php {{ $baseDir }}/artisan migrate:status
 @endtask
 
 @task('reload_services', ['on' => 'prod'])
